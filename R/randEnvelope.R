@@ -64,7 +64,7 @@ randEnvelope <- function(
   # https://www.avery.com/templates/5164
   # Biostat Jefferson order, 2024
   # use this aspect ratio, even if printing on #10 envelopes directly!!
-  cairo_pdf(filename = file_envelope, onefile = TRUE, 
+  cairo_pdf(filename = file_envelope, 
             width = (4 + 3/16) * 1.75, height = (3 + 5/16) * 1.75)
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
     p <- bg_envelope + 
@@ -77,7 +77,7 @@ randEnvelope <- function(
   message('\r', n, ' out of ', n, ' envelopes printed', appendLF = TRUE)
   message('Print directly on 10# envelopes.')
   
-  cairo_pdf(filename = file_insert, onefile = TRUE, width = 8.5, height = 11) # US letter
+  cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
     p <- bg_insert + 
       (if (length(x$strata_labels)) annotate(geom = 'label', label = x$strata_labels[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
