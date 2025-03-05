@@ -5,10 +5,13 @@
 #' @description 
 #' Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
 #' 
-#' @param x a \link{randSchedule} object
+#' @param x a [schedule] object
 #' 
 #' @param path \link[base]{character} scalar
 #' 
+#' @param title \link[base]{character} scalar, name of study
+#' @param scientist \link[base]{character} scalar, (email of) the principal investigator
+#' @param statistician \link[base]{character} scalar, (email of) the statistician
 #' @param ... ..
 #' 
 #' @returns 
@@ -16,7 +19,7 @@
 #' Function [randEnvelope] returns ..
 #' 
 #' @examples 
-#' # see ?randSchedule
+#' # see ?schedule
 #' 
 #' @importFrom cli cli_text
 #' @importFrom grDevices cairo_pdf dev.off
@@ -26,10 +29,13 @@
 randEnvelope <- function(
     x, 
     path = tempdir(),
+    title = 'Study Title',
+    scientist = 'Principal.Investigator@jefferson.edu',
+    statistician = 'Tingting.Zhan@jefferson.edu',
     ...
 ) {
   
-  if (!inherits(x, what = 'randSchedule')) stop('`x` must be \'randSchedule\'.')
+  if (!inherits(x, what = 'schedule')) stop('`x` must be \'schedule\'.')
   
   dir.create(path, showWarnings = FALSE)
   file_envelope <- tempfile(pattern = 'Envelope_', tmpdir = path, fileext = '.pdf')
@@ -46,14 +52,14 @@ randEnvelope <- function(
   ) 
   
   bg_envelope <- bg + 
-    annotate(geom = 'text', label = attr(x, which = 'title', exact = TRUE), size = 7*2, fontface = 'bold', x = .5, y = .75) +
-    annotate(geom = 'text', label = attr(x, which = 'scientist', exact = TRUE), size = 4.5*2,  x = .5, y = .65) +
+    annotate(geom = 'text', label = title, size = 7*2, fontface = 'bold', x = .5, y = .75) +
+    annotate(geom = 'text', label = scientist, size = 4.5*2,  x = .5, y = .65) +
     annotate(geom = 'text', label = 'Open Randomization Envelopes in Sequence', size = 3*2, x = .5, y = .25, color = 'grey50')
   
   bg_insert <- bg +
-    annotate(geom = 'text', label = attr(x, which = 'title', exact = TRUE), size = 6, fontface = 'bold', x = .5, y = .9) +
-    annotate(geom = 'text', label = paste0('Principle Investigator:  ', attr(x, which = 'scientist', exact = TRUE)), size = 4.5, x = .5, y = .85) +
-    annotate(geom = 'text', label = paste0('Statistician:  ', attr(x, which = 'statistician', exact = TRUE)), size = 4.5, x = .5, y = .8) +
+    annotate(geom = 'text', label = title, size = 6, fontface = 'bold', x = .5, y = .9) +
+    annotate(geom = 'text', label = paste0('Principle Investigator:  ', scientist), size = 4.5, x = .5, y = .85) +
+    annotate(geom = 'text', label = paste0('Statistician:  ', statistician), size = 4.5, x = .5, y = .8) +
     annotate(geom = 'text', label = 'Patient Initials: ______________________', size = 4.5, x = .5, y = .42) +
     annotate(geom = 'text', label = 'Study ID / MRN: ______________________', size = 4.5, x = .5, y = .35) +
     annotate(geom = 'text', label = 'Clinician Signature:  _______________________________', size = 4.5, x = .65, y = .2) +

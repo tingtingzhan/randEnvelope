@@ -4,12 +4,25 @@
 \alias{randEnvelope}
 \title{Randomization Envelopes and Inserts}
 \usage{
-randEnvelope(x, path = tempdir(), ...)
+randEnvelope(
+  x,
+  path = tempdir(),
+  title = "Study Title",
+  scientist = "Principal.Investigator@jefferson.edu",
+  statistician = "Tingting.Zhan@jefferson.edu",
+  ...
+)
 }
 \arguments{
-\item{x}{a \link{randSchedule} object}
+\item{x}{a \link{schedule} object}
 
 \item{path}{\link[base]{character} scalar}
+
+\item{title}{\link[base]{character} scalar, name of study}
+
+\item{scientist}{\link[base]{character} scalar, (email of) the principal investigator}
+
+\item{statistician}{\link[base]{character} scalar, (email of) the statistician}
 
 \item{...}{..}
 }
@@ -20,6 +33,6 @@ Function \link{randEnvelope} returns ..
 Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
 }
 \examples{
-# see ?randSchedule
+# see ?schedule
 
 }
