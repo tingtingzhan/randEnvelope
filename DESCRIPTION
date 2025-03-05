@@ -1,0 +1,14 @@
+Package: randEnvelope
+Type: Package
+Title: Randomization Envelopes
+Version: 0.1.0
+Date: 2023-12-12
+Description: Create randomization envelopes.
+License: GPL-2
+Encoding: UTF-8
+Imports: cli, combinat, ggplot2, Hmisc
+Authors@R: c(person(given = "Tingting", family = "Zhan", role = c("aut", "cre"), email = c("tingtingzhan@gmail.com")))
+Language: en-US
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.4.0)
+RoxygenNote: 7.3.2
