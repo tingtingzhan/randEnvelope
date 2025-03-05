@@ -80,8 +80,7 @@ randEnvelope <- function(
   # link is activated (OLD and NEW), but RStudio tries to open this pdf file in RStudio.
   # tzh does not know how to specify desired program to open, as for now
   # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope)) # OLD: error under Windows; okay on Mac
-  cli_text(sprintf(fmt = '\r \u00d7%d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}', n))
-  system(paste0('open ', file_envelope)) # have to open file in this way
+  cli_text(sprintf(fmt = '\r \u00d7%d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}', n)) # NEW
   
   cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
@@ -95,7 +94,8 @@ randEnvelope <- function(
   dev.off()
   message('\r                                \r', appendLF = FALSE)
   cli_text(sprintf(fmt = '\r \u00d7%d {.href [inserts](file://{path.expand(path = file_insert)})}', n))
-  system(paste0('open ', file_insert))
+  
+  system(command = paste0('open ', path))
   
   return(invisible(c(file_envelope, file_insert)))
   
