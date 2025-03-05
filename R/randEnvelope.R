@@ -77,22 +77,11 @@ randEnvelope <- function(
   dev.off()
   message('\r                                \r', appendLF = FALSE)
   
-  # OLD: 
-  # link not activated
-  # error under Windows
-  # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope))
-  # end of OLD
-  
-  # NEW:
-  # link not activated on Mac, but activated on Windows!!
-  #tmp <- path.expand(path = file_envelope)
-  #cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{tmp})}', n))
-  # end of NEW
-  
-  # try???
-  cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}', n))
-  
-  #system(paste0('open ', file_envelope))
+  # link is activated (OLD and NEW), but RStudio tries to open this pdf file in RStudio.
+  # tzh does not know how to specify desired program to open, as for now
+  # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope)) # OLD: error under Windows; okay on Mac
+  cli_text(sprintf(fmt = '\r \u00d7%d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}', n))
+  system(paste0('open ', file_envelope)) # have to open file in this way
   
   cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
@@ -105,7 +94,8 @@ randEnvelope <- function(
   })
   dev.off()
   message('\r                                \r', appendLF = FALSE)
-  cli_text(sprintf(fmt = '\r %d {.href [inserts](file://{\'%s\'})}', n, file_insert))
+  cli_text(sprintf(fmt = '\r \u00d7%d {.href [inserts](file://{path.expand(path = file_insert)})}', n))
+  system(paste0('open ', file_insert))
   
   return(invisible(c(file_envelope, file_insert)))
   
