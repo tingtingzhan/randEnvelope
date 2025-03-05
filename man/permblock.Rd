@@ -17,11 +17,11 @@ Permuted block randomization schedule, non-stratified.
 \section{Slots}{
 
 \describe{
-\item{\code{treatment}}{\link[base]{character} \link[base]{vector}, name of treatments,
+\item{\code{arm}}{\link[base]{character} \link[base]{vector}, name of arms,
 such as \code{'tx1'}, \code{'tx2'}, \code{'control'}, etc.}
 
 \item{\code{ratio}}{\link[base]{integer} \link[base]{vector},
-planned allocation ratios of the \code{treatment} arms.
+planned allocation ratios of arms.
 End user should make sure the greatest common divisor of \code{ratio} is 1.
 Default to balanced design \code{1:1: ... :1}.}
 
@@ -33,5 +33,5 @@ Default \code{2:3}, i.e., block size multipliers of 2 and 3 are permuted.}
 }}
 
 \examples{
-permblock(treatment = c('treatment', 'control'), ratio = 1:2, n = 20L)
+permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
 }

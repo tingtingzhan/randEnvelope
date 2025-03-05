@@ -38,8 +38,8 @@ stratify <- function(x, ..., sep) UseMethod(generic = 'stratify')
 #' @returns 
 #' Function [stratify.permblock] returns a \linkS4class{stratified_permblock} object.
 #' @examples
-#' permblock(treatment = c('treatment', 'control'), ratio = 1:2, n = 20L) |>
-#'  stratify(cohort = c('non_Oral', 'Oral'), inst = c('Ohio', 'Jeff'))
+#' permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L) |>
+#'  stratify(cohort = c('young', 'old'), inst = c('PA', 'NJ'))
 #' @export stratify.permblock
 #' @export
 stratify.permblock <- function(x, ..., sep = ' \u058d ') {

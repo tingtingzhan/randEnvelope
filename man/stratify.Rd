@@ -23,6 +23,6 @@ Function \link{stratify.permblock} returns a \linkS4class{stratified_permblock} 
 stratify
 }
 \examples{
-permblock(treatment = c('treatment', 'control'), ratio = 1:2, n = 20L) |>
- stratify(cohort = c('non_Oral', 'Oral'), inst = c('Ohio', 'Jeff'))
+permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L) |>
+ stratify(cohort = c('young', 'old'), inst = c('PA', 'NJ'))
 }

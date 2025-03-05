@@ -8,9 +8,9 @@
 \usage{
 schedule(x, ...)
 
-\method{schedule}{permblock}(x, .blocks = getblocks(x), ...)
+\method{schedule}{permblock}(x, .blocks = get_block(x), ...)
 
-\method{schedule}{stratified_permblock}(x, .blocks = getblocks(x), ...)
+\method{schedule}{stratified_permblock}(x, .blocks = get_block(x), ...)
 }
 \arguments{
 \item{x}{..}
@@ -23,7 +23,7 @@ schedule(x, ...)
 schedule
 }
 \examples{
-pb = permblock(treatment = c('intervention', 'control'), ratio = 1:2, n = 20L)
+pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
 set.seed(1251); r1 = pb |> schedule()
 r1
 set.seed(1325); r2 = pb |> 
