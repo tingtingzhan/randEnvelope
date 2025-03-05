@@ -76,7 +76,19 @@ randEnvelope <- function(
   })
   dev.off()
   message('\r                                \r', appendLF = FALSE)
-  cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope))
+  
+  # OLD: 
+  # link not activated
+  # error under Windows
+  # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope))
+  # end of OLD
+  
+  # NEW:
+  # link still not activated..
+  tmp <- path.expand(path = file_envelope)
+  cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{tmp})}', n))
+  # end of NEW
+  
   system(paste0('open ', file_envelope))
   
   cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
