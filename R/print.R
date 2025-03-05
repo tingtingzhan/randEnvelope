@@ -1,6 +1,6 @@
 
 
-#' @title Randomization Envelopes and Inserts
+#' @title Print Randomization Schedule, Envelopes and Inserts
 #' 
 #' @description 
 #' Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
@@ -16,7 +16,7 @@
 #' 
 #' @returns 
 #' 
-#' Function [randEnvelope] returns ..
+#' Function [print.schedule] returns ..
 #' 
 #' @examples 
 #' # see ?schedule
@@ -25,8 +25,10 @@
 #' @importFrom grDevices cairo_pdf dev.off
 #' @importFrom grid unit
 #' @importFrom ggplot2 ggplot annotate element_blank element_rect theme xlim ylim
+#' @importFrom utils write.table
+#' @export print.schedule
 #' @export
-randEnvelope <- function(
+print.schedule <- function(
     x, 
     path = tempdir(),
     title = 'Study Title',
@@ -40,7 +42,13 @@ randEnvelope <- function(
   dir.create(path, showWarnings = FALSE)
   file_envelope <- tempfile(pattern = 'Envelope_', tmpdir = path, fileext = '.pdf')
   file_insert <- tempfile(pattern = 'Insert_', tmpdir = path, fileext = '.pdf')
+  file_schedule <- tempfile(pattern = 'Schedule_', tmpdir = path, fileext = '.csv')
   
+  x0 <- x
+  if (length(x$strata_labels)) x0$strata_labels <- NULL
+  write.table(x = x0, file = file_schedule, quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
+  cli_text('randomization {.href [schedule](file://{path.expand(path = file_schedule)})}')
+
   bg <- ggplot() + xlim(0, 1) + ylim(0, 1) + theme(
     #axis.ticks = element_blank(), # no need in addition to `axis.ticks.length` 
     axis.ticks.length = unit(0, units = 'cm'),

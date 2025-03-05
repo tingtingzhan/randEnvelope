@@ -23,11 +23,11 @@ schedule(x, ...)
 schedule
 }
 \examples{
-pb = permblock(treatment = c('treatment', 'control'), ratio = 1:2, n = 20L)
+pb = permblock(treatment = c('intervention', 'control'), ratio = 1:2, n = 20L)
 set.seed(1251); r1 = pb |> schedule()
-randEnvelope(r1)
+r1
 set.seed(1325); r2 = pb |> 
-  stratify(cohort = c('non_Oral', 'Oral'), inst = c('Ohio', 'Jeff')) |> 
+  stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')) |> 
   schedule()
-randEnvelope(r2)
+r2
 }

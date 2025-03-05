@@ -2,6 +2,7 @@
 % Please edit documentation in R/0PACKAGE.R
 \docType{package}
 \name{randEnvelope-package}
+\alias{randEnvelope}
 \alias{randEnvelope-package}
 \title{randEnvelope}
 \description{

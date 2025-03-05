@@ -25,9 +25,9 @@ getblocks <- function(x) {
 #' @param .blocks ..
 #' 
 #' @examples
-#' pb = permblock(treatment = c('treatment', 'control'), ratio = 1:2, n = 20L)
+#' pb = permblock(treatment = c('intervention', 'control'), ratio = 1:2, n = 20L)
 #' set.seed(1251); r1 = pb |> schedule()
-#' randEnvelope(r1)
+#' r1
 #' @export
 schedule.permblock <- function(x, .blocks = getblocks(x), ...) {
   
@@ -38,7 +38,7 @@ schedule.permblock <- function(x, .blocks = getblocks(x), ...) {
     x@treatment |> col_yellow() |> style_bold() |> paste0(collapse = ' and '))
   
   txt_n <- sprintf(
-    fmt = 'A total of %s records are generated.', 
+    fmt = '%s records are generated.', 
     x@n |> col_black() |> style_bold())
   
   msg <- paste0(
@@ -85,9 +85,9 @@ perm_block_ <- function(blocks, n) {
 #' @rdname schedule
 #' @examples
 #' set.seed(1325); r2 = pb |> 
-#'   stratify(cohort = c('non_Oral', 'Oral'), inst = c('Ohio', 'Jeff')) |> 
+#'   stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')) |> 
 #'   schedule()
-#' randEnvelope(r2)
+#' r2
 #' @export
 schedule.stratified_permblock <- function(x, .blocks = getblocks(x), ...) {
 
@@ -99,11 +99,11 @@ schedule.stratified_permblock <- function(x, .blocks = getblocks(x), ...) {
     
   msg <- attr(tmp[[1L]], which = 'message', exact = TRUE) |>
     gsub(pattern = 'Permuted block', replacement = 'Stratified permuted block') |>
-    gsub(pattern = 'A total of ', replacement = '') |>
     gsub(pattern = 'are generated', replacement = sprintf(
       fmt = 'are generated per stratum of %s', 
       names(x@strata) |> col_magenta() |> style_bold() |> paste0(collapse = ' and ')
     ))
+  message(msg)
   
   out <- data.frame(
     do.call(what = rbind.data.frame, args = tmp),
