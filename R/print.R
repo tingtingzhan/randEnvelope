@@ -110,7 +110,7 @@ print.schedule <- function(
   
   system(command = paste0('open ', path))
   
-  return(invisible(c(file_envelope, file_insert)))
+  return(invisible(c(file_schedule, file_envelope, file_insert)))
   
 }
 
