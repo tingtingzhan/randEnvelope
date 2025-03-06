@@ -3,12 +3,17 @@
 #' 
 #' @param x ..
 #' 
-#' @param ... ..
+#' @param ... additional information to be appended to the randomization schedule.
+#' Use with extreme caution!
+#' 
+#' @returns
+#' Functions [schedule.permblock] and [schedule.stratified_permblock]
+#' both returns a [schedule] object
 #' 
 #' @name schedule
 #' @importFrom cli col_black col_blue col_cyan col_green col_magenta col_yellow style_bold style_hyperlink
 #' @export
-schedule <- function(x, ...) UseMethod(generic = 'schedule')
+schedule <- function(x, .blocks, ...) UseMethod(generic = 'schedule')
 
 
 #' @rdname schedule
@@ -17,8 +22,9 @@ schedule <- function(x, ...) UseMethod(generic = 'schedule')
 #' 
 #' @examples
 #' pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
-#' set.seed(1251); r1 = pb |> schedule()
-#' r1
+#' set.seed(1251); pb |> schedule()
+#' set.seed(1251); pb |> schedule(study.name = 'CDC')
+#' @export schedule.permblock
 #' @export
 schedule.permblock <- function(x, .blocks = get_block(x), ...) {
   
@@ -41,11 +47,13 @@ schedule.permblock <- function(x, .blocks = get_block(x), ...) {
   
   out <- data.frame(
     Sequence = seq_len(x@n), 
-    Assignment = sample_block(x = .blocks, n = x@n))
-  
+    Assignment = sample_block(x = .blocks, n = x@n),
+    ...,
+    row.names = NULL, check.names = FALSE
+  )
   attr(out, which = 'message') <- msg
   class(out) <- c('schedule', class(out))
-  return(invisible(out))
+  return(out)
   
 }
 
@@ -53,10 +61,10 @@ schedule.permblock <- function(x, .blocks = get_block(x), ...) {
 
 #' @rdname schedule
 #' @examples
-#' set.seed(1325); r2 = pb |> 
+#' set.seed(1325); pb |> 
 #'   stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')) |> 
 #'   schedule()
-#' r2
+#' @export schedule.stratified_permblock
 #' @export
 schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
 
@@ -64,8 +72,12 @@ schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
   strata_labels <- do.call(what = paste, args = c(sgrid, list(sep = x@sep)))
   k <- .row_names_info(sgrid, type = 2L) # number of combined-strata
 
-  suppressMessages(tmp <- replicate(n = k, expr = schedule.permblock(x, .blocks = .blocks), simplify = FALSE))
-    
+  # suppressMessages(tmp <- replicate(n = k, expr = schedule.permblock(x, .blocks = .blocks, ...), simplify = FALSE)) # mess up with `...` !!
+  tmp <- list()
+  for (i in seq_len(k)) {
+    suppressMessages(tmp[[i]] <- schedule.permblock(x, .blocks = .blocks, ...))
+  }
+  
   msg <- attr(tmp[[1L]], which = 'message', exact = TRUE) |>
     gsub(pattern = 'Permuted block', replacement = 'Stratified permuted block') |>
     gsub(pattern = 'are generated', replacement = sprintf(
@@ -83,7 +95,7 @@ schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
   
   attr(out, which = 'message') <- msg
   class(out) <- c('schedule', class(out))
-  return(invisible(out))
+  return(out)
   
 }
 
