@@ -72,6 +72,7 @@ setValidity(Class = 'permblock', method = function(object) {
 permblock <- function(...) new(Class = 'permblock', ...)
 
 
+#' @importFrom cli col_blue col_cyan col_green col_magenta col_yellow style_bold style_hyperlink style_underline
 #' @export
 print.permblock <- function(x, ...) {
   return(paste0(

@@ -11,7 +11,6 @@
 #' both returns a [schedule] object
 #' 
 #' @name schedule
-#' @importFrom cli col_blue col_cyan col_green col_magenta col_yellow style_bold style_hyperlink style_underline
 #' @export
 schedule <- function(x, .blocks, ...) UseMethod(generic = 'schedule')
 

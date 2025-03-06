@@ -53,6 +53,8 @@ stratify.permblock <- function(x, ..., sep = ' \u058d ') {
 }
 
 
+
+#' @importFrom cli col_magenta style_bold
 #' @export
 print.stratified_permblock <- function(x, ...) {
   print.permblock(x, ...) |>
