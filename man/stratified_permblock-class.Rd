@@ -10,8 +10,8 @@ stratified_permblock
 \section{Slots}{
 
 \describe{
-\item{\code{strata}}{named \link[base]{list} of \link[base]{character} \link[base]{vector}s.}
+\item{\code{strata}}{\link[base]{data.frame}, e.g., \link[base]{expand.grid} from a \link[base]{list} of \link[base]{character} \link[base]{vector}s.}
 
-\item{\code{sep}}{\link[base]{character} scalar, symbol to separate multiple strata names}
+\item{\code{label}}{\link[base]{character} \link[base]{vector}, strata labels}
 }}
 

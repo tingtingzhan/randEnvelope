@@ -1,15 +1,17 @@
 
 #' @title stratified_permblock
 #' 
-#' @slot strata named \link[base]{list} of \link[base]{character} \link[base]{vector}s.
+#' @slot strata \link[base]{data.frame}, e.g., \link[base]{expand.grid} from a \link[base]{list} of \link[base]{character} \link[base]{vector}s.
 # name clash \link[survival]{strata} !  
 #' 
-#' @slot sep \link[base]{character} scalar, symbol to separate multiple strata names
+#' @slot label \link[base]{character} \link[base]{vector}, strata labels
 #' 
 #' @export
 setClass(Class = 'stratified_permblock', contains = 'permblock', slots = c(
-  strata = 'list',
-  sep = 'character'
+  #strata = 'list',
+  #sep = 'character'
+  strata = 'data.frame',
+  label = 'character'
 ), prototype = prototype(
   sep = ' \u058d '#, # ' / ',
 ), validity = function(object) {
@@ -43,5 +45,9 @@ stratify <- function(x, ..., sep) UseMethod(generic = 'stratify')
 #' @export stratify.permblock
 #' @export
 stratify.permblock <- function(x, ..., sep = ' \u058d ') {
-  new(Class = 'stratified_permblock', x, strata = list(...), sep = sep)
+  strata <- expand.grid(..., stringsAsFactors = FALSE)
+  label <- do.call(what = paste, args = c(as.list.data.frame(strata), list(sep = sep)))
+  new(Class = 'stratified_permblock', 
+      x, 
+      strata = strata, label = label)
 }

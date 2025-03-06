@@ -67,9 +67,7 @@ schedule.permblock <- function(x, .blocks = get_block(x), ...) {
 #' @export
 schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
 
-  sgrid <- do.call(what = expand.grid, args = c(x@strata, stringsAsFactors = FALSE))
-  strata_labels <- do.call(what = paste, args = c(sgrid, list(sep = x@sep)))
-  k <- .row_names_info(sgrid, type = 2L) # number of combined-strata
+  k <- .row_names_info(x@strata, type = 2L) # number of combined-strata
 
   # suppressMessages(tmp <- replicate(n = k, expr = schedule.permblock(x, .blocks = .blocks, ...), simplify = FALSE)) # mess up with `...` !!
   tmp <- list()
@@ -87,11 +85,10 @@ schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
   
   out <- data.frame(
     do.call(what = rbind.data.frame, args = tmp),
-    sgrid[rep(seq_len(k), each = x@n), , drop = FALSE], 
-    strata_labels = rep(strata_labels, each = x@n),
+    x@strata[rep(seq_len(k), each = x@n), , drop = FALSE], 
     row.names = NULL, check.names = FALSE
   )
-  
+  attr(out, which = 'label') <- rep(x@label, each = x@n)
   attr(out, which = 'message') <- msg
   class(out) <- c('schedule', class(out))
   return(out)

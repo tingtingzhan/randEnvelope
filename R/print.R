@@ -44,9 +44,7 @@ print.schedule <- function(
   file_insert <- tempfile(pattern = 'Insert_', tmpdir = path, fileext = '.pdf')
   file_schedule <- tempfile(pattern = 'Schedule_', tmpdir = path, fileext = '.csv')
   
-  x0 <- x
-  if (length(x$strata_labels)) x0$strata_labels <- NULL
-  write.table(x = x0, file = file_schedule, quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
+  write.table(x = x, file = file_schedule, quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
   cli_text('randomization {.href [schedule](file://{path.expand(path = file_schedule)})}')
 
   bg <- ggplot() + xlim(0, 1) + ylim(0, 1) + theme(
@@ -75,6 +73,7 @@ print.schedule <- function(
     annotate(geom = 'text', label = 'Put completed form back into envelope, seal and keep for records', size = 4, x = .6, y = .08, colour = 'grey50')
   
   n <- .row_names_info(x, 2L)
+  label <- attr(x, which = 'label', exact = TRUE)
   
   # https://www.avery.com/templates/5164
   # Biostat Jefferson order, 2024
@@ -83,7 +82,7 @@ print.schedule <- function(
             width = (4 + 3/16) * 1.75, height = (3 + 5/16) * 1.75)
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
     p <- bg_envelope + 
-      (if (length(x$strata_labels)) annotate(geom = 'label', label = x$strata_labels[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
+      (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
       annotate(geom = 'label', label = paste0('Sequence #:  ', x$Sequence[i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
     print(p)
     if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
@@ -99,7 +98,7 @@ print.schedule <- function(
   cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
   noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
     p <- bg_insert + 
-      (if (length(x$strata_labels)) annotate(geom = 'label', label = x$strata_labels[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
+      (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
       annotate(geom = 'label', label = paste0('Sequence #:  ', x$Sequence[i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
       annotate(geom = 'label', label = paste0('Assignment:  ', x$Assignment[i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
     print(p)
