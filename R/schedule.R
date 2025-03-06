@@ -21,36 +21,18 @@ schedule <- function(x, .blocks, ...) UseMethod(generic = 'schedule')
 #' @param .blocks ..
 #' 
 #' @examples
-#' pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
+#' (pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
 #' set.seed(1251); pb |> schedule()
 #' set.seed(1251); pb |> schedule(study.name = 'CDC')
 #' @export schedule.permblock
 #' @export
 schedule.permblock <- function(x, .blocks = get_block(x), ...) {
-  
-  msg <- paste0(
-    'Permuted block' |> col_magenta() |> style_bold(), 
-    ' randomization schedule is generated using ', 
-    'R' |> col_blue() |> style_bold() |> style_hyperlink(url = 'https://cran.r-project.org'), 
-    '. Block-size multipliers of ',
-    x@multiplier |> sprintf(fmt = '\u00d7%d') |> col_green() |> style_bold() |> paste0(collapse = ' and '),
-    ' are permuted. A ',
-    x@ratio |> paste(collapse = ':') |> col_cyan() |> style_bold(), 
-    ' allocation ratio is applied to ',
-    x@arm |> col_yellow() |> style_bold() |> paste0(collapse = ' and '),
-    ' arms within each block. ',
-    x@n |> style_underline() |> style_bold(),
-    ' records are generated.'
-  )
-  message(msg)
-  
   out <- data.frame(
     Sequence = seq_len(x@n), 
     Assignment = sample_block(x = .blocks, n = x@n),
     ...,
     row.names = NULL, check.names = FALSE
   )
-  attr(out, which = 'message') <- msg
   class(out) <- c('schedule', class(out))
   return(out)
   
@@ -60,28 +42,20 @@ schedule.permblock <- function(x, .blocks = get_block(x), ...) {
 
 #' @rdname schedule
 #' @examples
-#' set.seed(1325); pb |> 
-#'   stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')) |> 
-#'   schedule()
+#' (spb = pb |> 
+#'   stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')))
+#' set.seed(1325); spb |> schedule()
 #' @export schedule.stratified_permblock
 #' @export
 schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
 
   k <- .row_names_info(x@strata, type = 2L) # number of combined-strata
 
-  # suppressMessages(tmp <- replicate(n = k, expr = schedule.permblock(x, .blocks = .blocks, ...), simplify = FALSE)) # mess up with `...` !!
+  # ?base::replicate or ?base::lapply both mess up with `...` !!
   tmp <- list()
   for (i in seq_len(k)) {
     suppressMessages(tmp[[i]] <- schedule.permblock(x, .blocks = .blocks, ...))
   }
-  
-  msg <- attr(tmp[[1L]], which = 'message', exact = TRUE) |>
-    gsub(pattern = 'Permuted block', replacement = 'Stratified permuted block') |>
-    gsub(pattern = 'are generated', replacement = sprintf(
-      fmt = 'are generated per stratum of %s', 
-      names(x@strata) |> col_magenta() |> style_bold() |> paste0(collapse = ' and ')
-    ))
-  message(msg)
   
   out <- data.frame(
     do.call(what = rbind.data.frame, args = tmp),
@@ -89,7 +63,6 @@ schedule.stratified_permblock <- function(x, .blocks = get_block(x), ...) {
     row.names = NULL, check.names = FALSE
   )
   attr(out, which = 'label') <- rep(x@label, each = x@n)
-  attr(out, which = 'message') <- msg
   class(out) <- c('schedule', class(out))
   return(out)
   

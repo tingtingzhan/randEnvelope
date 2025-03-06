@@ -72,6 +72,33 @@ setValidity(Class = 'permblock', method = function(object) {
 permblock <- function(...) new(Class = 'permblock', ...)
 
 
+#' @export
+print.permblock <- function(x, ...) {
+  return(paste0(
+    'Permuted block' |> col_magenta() |> style_bold(), 
+    ' randomization schedule is generated using ', 
+    'R' |> col_blue() |> style_bold() |> style_hyperlink(url = 'https://cran.r-project.org'), 
+    '. Block-size multipliers of ',
+    x@multiplier |> sprintf(fmt = '\u00d7%d') |> col_green() |> style_bold() |> paste0(collapse = ' and '),
+    ' are permuted. A ',
+    x@ratio |> paste(collapse = ':') |> col_cyan() |> style_bold(), 
+    ' allocation ratio is applied to ',
+    x@arm |> col_yellow() |> style_bold() |> paste0(collapse = ' and '),
+    ' arms within each block. ',
+    x@n |> style_underline() |> style_bold(),
+    ' records are generated.'
+  ))
+}
+
+
+#' @title Show \linkS4class{permblock}
+#' 
+#' @param object \linkS4class{permblock}
+#' 
+#' @export
+setMethod(f = show, signature = 'permblock', definition = function(object) {
+  object |> print.permblock() |> message()
+})
 
 
 

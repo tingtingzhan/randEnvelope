@@ -7,24 +7,24 @@
 #' @param n positive \link[base]{integer} scalar, sample size
 #' 
 #' @examples
-#' pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
+#' (pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
 #' pb |> get_block() |> sample_block(n = 30L) # base::set.seed if needed
 #' @keywords internal
 #' @export
 sample_block <- function(x, n) {
   size0 <- min(lengths(unlist(x, recursive = FALSE))) # minimum block size
   nx <- length(x)
-  max_b <- ceiling(n / size0) # maximum of blocks needed
-  bid <- sample.int(n = nx, size = max_b, replace = TRUE) # indices of block size
+  nb <- ceiling(n / size0) # maximum number of blocks needed
+  b <- sample.int(n = nx, size = nb, replace = TRUE) # indices of block size
   
   tmp <- .mapply(FUN = sample, dots = list(
     x = x, 
-    size = tabulate(bid, nbins = nx)
+    size = tabulate(b, nbins = nx)
   ), MoreArgs = list(replace = TRUE))
   
-  ret <- vector(mode = 'list', length = max_b)
+  ret <- vector(mode = 'list', length = nb)
   for (i in seq_len(nx)) {
-    ret[bid == i] <- tmp[[i]] # degenerated okay
+    ret[b == i] <- tmp[[i]] # degenerated okay
   } # smart!
   return(unlist(ret)[seq_len(n)])
 }

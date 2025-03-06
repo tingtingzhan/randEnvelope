@@ -51,3 +51,29 @@ stratify.permblock <- function(x, ..., sep = ' \u058d ') {
       x, 
       strata = strata, label = label)
 }
+
+
+#' @export
+print.stratified_permblock <- function(x, ...) {
+  print.permblock(x, ...) |>
+    gsub(pattern = 'Permuted block', replacement = 'Stratified permuted block') |>
+    gsub(pattern = 'are generated', replacement = sprintf(
+      fmt = 'are generated per stratum of %s', 
+      names(x@strata) |> col_magenta() |> style_bold() |> paste0(collapse = ' and ')
+    ))
+}
+
+
+
+#' @title Show \linkS4class{stratified_permblock}
+#' 
+#' @param object \linkS4class{stratified_permblock}
+#' 
+#' @export
+setMethod(f = show, signature = 'stratified_permblock', definition = function(object) {
+  object |> print.stratified_permblock() |> message()
+})
+
+
+
+

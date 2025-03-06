@@ -15,7 +15,7 @@ sample_block(x, n)
 Sample from Blocks
 }
 \examples{
-pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
+(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
 pb |> get_block() |> sample_block(n = 30L) # base::set.seed if needed
 }
 \keyword{internal}

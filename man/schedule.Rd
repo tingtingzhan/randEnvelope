@@ -28,10 +28,10 @@ both returns a \link{schedule} object
 schedule
 }
 \examples{
-pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
+(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
 set.seed(1251); pb |> schedule()
 set.seed(1251); pb |> schedule(study.name = 'CDC')
-set.seed(1325); pb |> 
-  stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')) |> 
-  schedule()
+(spb = pb |> 
+  stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')))
+set.seed(1325); spb |> schedule()
 }
