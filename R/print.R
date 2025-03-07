@@ -93,7 +93,7 @@ print.schedule <- function(
     noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
       p <- bg_envelope + 
         (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
-        annotate(geom = 'label', label = paste0('Sequence #:  ', x$Sequence[i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
+        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
       print(p)
       if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
     })
@@ -109,8 +109,8 @@ print.schedule <- function(
     noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
       p <- bg_insert + 
         (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
-        annotate(geom = 'label', label = paste0('Sequence #:  ', x$Sequence[i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
-        annotate(geom = 'label', label = paste0('Assignment:  ', x$Assignment[i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
+        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
+        annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
       print(p)
       if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
     })
