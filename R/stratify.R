@@ -1,23 +1,18 @@
 
-#' @title stratified_permblock
+#' @title Stratified Permuted Block Randomization
+#' 
+#' @description
+#' Stratified permuted block randomization.
 #' 
 #' @slot strata \link[base]{data.frame}, e.g., \link[base]{expand.grid} from a \link[base]{list} of \link[base]{character} \link[base]{vector}s.
-# name clash \link[survival]{strata} !  
 #' 
 #' @slot label \link[base]{character} \link[base]{vector}, strata labels
 #' 
 #' @export
 setClass(Class = 'stratified_permblock', contains = 'permblock', slots = c(
-  #strata = 'list',
-  #sep = 'character'
   strata = 'data.frame',
   label = 'character'
-), prototype = prototype(
-  sep = ' \u058d '#, # ' / ',
-), validity = function(object) {
-  strata <- object@strata
-  if (!all(vapply(strata, FUN = is.vector, mode = 'character', FUN.VALUE = NA))) stop('illegal ``@strata')
-})
+))
 
 
 

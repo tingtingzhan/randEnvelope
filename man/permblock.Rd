@@ -4,7 +4,7 @@
 \name{permblock}
 \alias{permblock}
 \alias{permblock-class}
-\title{Permuted Block Randomization Schedule}
+\title{Permuted Block Randomization}
 \usage{
 permblock(...)
 }
@@ -12,7 +12,7 @@ permblock(...)
 \item{...}{slots of S4 object \linkS4class{permblock}}
 }
 \description{
-Permuted block randomization schedule, non-stratified.
+Permuted block randomization, non-stratified.
 }
 \section{Slots}{
 

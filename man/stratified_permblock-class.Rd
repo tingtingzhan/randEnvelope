@@ -3,9 +3,9 @@
 \docType{class}
 \name{stratified_permblock-class}
 \alias{stratified_permblock-class}
-\title{stratified_permblock}
+\title{Stratified Permuted Block Randomization}
 \description{
-stratified_permblock
+Stratified permuted block randomization.
 }
 \section{Slots}{
 

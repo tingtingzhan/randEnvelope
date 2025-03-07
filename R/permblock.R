@@ -1,9 +1,9 @@
 
 
-#' @title Permuted Block Randomization Schedule
+#' @title Permuted Block Randomization
 #' 
 #' @description
-#' Permuted block randomization schedule, non-stratified.
+#' Permuted block randomization, non-stratified.
 #' 
 #' @slot arm \link[base]{character} \link[base]{vector}, name of arms, 
 #' such as `'tx1'`, `'tx2'`, `'control'`, etc.
