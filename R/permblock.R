@@ -55,7 +55,7 @@ setValidity(Class = 'permblock', method = function(object) {
   if (!is.vector(ratio, mode = 'integer') || any(ratio <= 0L)) stop('`@ratio` must be positive integer vector')
   if (length(ratio) && (ntx != length(ratio))) stop('`@arm` and `@ratio` must be same length')
   if (length(n) != 1L || n <= 0) stop('`@n` must be positive integer scalar')
-  if (!is.vector(m, mode = 'integer') || anyNA(m) || any(m <= 1L) || anyDuplicated.default(m) || length(m) <= 1L) stop('`@multiplier` must be length>1L integer vector')
+  if (!is.vector(m, mode = 'integer') || anyNA(m) || any(m <= 0L) || anyDuplicated.default(m) || length(m) <= 1L) stop('`@multiplier` must be length>1L integer vector')
 })
 
 
