@@ -7,6 +7,7 @@
 \method{print}{schedule}(
   x,
   path = tempdir(),
+  which = c("schedule", "envelope", "insert", "all"),
   title = "Study Title",
   scientist = "Principal.Investigator@jefferson.edu",
   statistician = "Tingting.Zhan@jefferson.edu",
@@ -17,6 +18,12 @@
 \item{x}{a \link{schedule} object}
 
 \item{path}{\link[base]{character} scalar}
+
+\item{which}{\link[base]{character} scalar, either
+\code{'schedule'} (default, in a \code{.csv} file, fast),
+\code{'envelope'},
+\code{'insert'} (in \code{.pdf} files via \link[ggplot2]{ggplot}, could be slow for large sample size)
+and \code{'all'}}
 
 \item{title}{\link[base]{character} scalar, name of study}
 

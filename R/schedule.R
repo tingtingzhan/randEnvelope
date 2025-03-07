@@ -32,6 +32,7 @@ schedule.permblock <- function(x, .blocks = get_block(x), ...) {
     ...,
     row.names = NULL, check.names = FALSE
   )
+  names(out)[1:2] <- c(x@nm_sequence, x@nm_arm)
   class(out) <- c('schedule', class(out))
   return(out)
   
