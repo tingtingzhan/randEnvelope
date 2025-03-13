@@ -1,8 +1,8 @@
 Package: randEnvelope
 Type: Package
 Title: Randomization Envelopes
-Version: 0.1.0
-Date: 2023-12-12
+Version: 0.1.1
+Date: 2025-03-12
 Description: Create randomization envelopes.
 License: GPL-2
 Encoding: UTF-8
