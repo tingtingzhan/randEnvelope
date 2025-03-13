@@ -6,16 +6,14 @@
 \alias{schedule.stratified_permblock}
 \title{schedule}
 \usage{
-schedule(x, .blocks, ...)
+schedule(x, ...)
 
-\method{schedule}{permblock}(x, .blocks = get_block(x), ...)
+\method{schedule}{permblock}(x, ...)
 
-\method{schedule}{stratified_permblock}(x, .blocks = get_block(x), ...)
+\method{schedule}{stratified_permblock}(x, ...)
 }
 \arguments{
 \item{x}{..}
-
-\item{.blocks}{..}
 
 \item{...}{additional information to be appended to the randomization schedule.
 Use with extreme caution!}
@@ -28,7 +26,7 @@ both returns a \link{schedule} object
 schedule
 }
 \examples{
-(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
+(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 50L))
 set.seed(1251); pb |> schedule()
 set.seed(1251); pb |> schedule(study.name = 'CDC')
 (spb = pb |> 
