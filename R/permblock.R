@@ -74,8 +74,6 @@ setValidity(Class = 'permblock', method = function(object) {
 #' 
 #' @param ... slots of S4 object \linkS4class{permblock}
 #' 
-#' @examples
-#' permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
 #' @export 
 permblock <- function(...) new(Class = 'permblock', ...)
 

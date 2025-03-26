@@ -1,0 +1,46 @@
+---
+title: "Randomization Envelopes"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Randomization Envelopes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+options(rmarkdown.html_vignette.check_title = FALSE)
+```
+
+```{r setup}
+library(randEnvelope)
+```
+
+```{r}
+(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
+```
+
+
+```{r}
+set.seed(1251); pb |> schedule()
+set.seed(1251); pb |> schedule(study.name = 'CDC')
+```
+
+```{r}
+pb |> rpermblock()
+```
+
+```{r}
+(spb = pb |> stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')))
+```
+
+```{r}
+set.seed(1325); spb |> schedule()
+```
+
+
+

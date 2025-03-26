@@ -20,10 +20,7 @@
 #' 
 #' @returns 
 #' 
-#' Function [print.schedule] returns ..
-#' 
-#' @examples 
-#' # see ?schedule
+#' Function [print.schedule()] returns ..
 #' 
 #' @importFrom cli cli_text
 #' @importFrom grDevices cairo_pdf dev.off

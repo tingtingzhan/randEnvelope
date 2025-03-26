@@ -34,12 +34,8 @@ and \code{'all'}}
 \item{...}{..}
 }
 \value{
-Function \link{print.schedule} returns ..
+Function \code{\link[=print.schedule]{print.schedule()}} returns ..
 }
 \description{
 Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
-}
-\examples{
-# see ?schedule
-
 }

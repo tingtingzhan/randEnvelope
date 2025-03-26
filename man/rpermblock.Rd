@@ -20,7 +20,3 @@ First select a block-size multiplier.
 
 Then do a \link[base]{sample}ing without replacement in the selected block.
 }
-\examples{
-permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 30L) |>
- rpermblock()
-}

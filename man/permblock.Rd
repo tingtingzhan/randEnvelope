@@ -36,6 +36,3 @@ Default \code{2:3}, i.e., block size multipliers of 2 and 3 are permuted.}
 \item{\code{nm_arm}}{\link[base]{character} scalar, default \code{'Assignment'}}
 }}
 
-\examples{
-permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L)
-}

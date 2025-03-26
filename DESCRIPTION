@@ -12,3 +12,7 @@ Language: en-US
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.4.0)
 RoxygenNote: 7.3.2
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

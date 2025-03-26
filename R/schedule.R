@@ -16,19 +16,11 @@ schedule <- function(x, ...) UseMethod(generic = 'schedule') # .blocks,
 
 
 #' @rdname schedule
-#' 
-# @param .blocks ..
-#' 
-#' @examples
-#' (pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 50L))
-#' set.seed(1251); pb |> schedule()
-#' set.seed(1251); pb |> schedule(study.name = 'CDC')
 #' @export schedule.permblock
 #' @export
-schedule.permblock <- function(x, ...) { # .blocks = get_block(x), 
+schedule.permblock <- function(x, ...) {
   out <- data.frame(
     Sequence = seq_len(x@n), 
-    #Assignment = sample_block(x = .blocks, n = x@n),
     Assignment = x |> rpermblock(),
     ...,
     row.names = NULL, check.names = FALSE
@@ -53,9 +45,6 @@ schedule.permblock <- function(x, ...) { # .blocks = get_block(x),
 #' 
 #' Then do a \link[base]{sample}ing without replacement in the selected block.
 #' 
-#' @examples
-#' permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 30L) |>
-#'  rpermblock()
 #' @export
 rpermblock <- function(x) {
   b_ <- rep(x@arm, times = x@ratio)
@@ -76,10 +65,6 @@ rpermblock <- function(x) {
 
 
 #' @rdname schedule
-#' @examples
-#' (spb = pb |> 
-#'   stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')))
-#' set.seed(1325); spb |> schedule()
 #' @export schedule.stratified_permblock
 #' @export
 schedule.stratified_permblock <- function(x, ...) { # .blocks = get_block(x), 

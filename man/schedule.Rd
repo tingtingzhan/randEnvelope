@@ -25,11 +25,3 @@ both returns a \link{schedule} object
 \description{
 schedule
 }
-\examples{
-(pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 50L))
-set.seed(1251); pb |> schedule()
-set.seed(1251); pb |> schedule(study.name = 'CDC')
-(spb = pb |> 
-  stratify(cohort = c('young', 'old'), state = c('PA', 'NJ')))
-set.seed(1325); spb |> schedule()
-}
