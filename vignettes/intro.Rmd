@@ -31,7 +31,7 @@ set.seed(1251); pb |> schedule(study.name = 'CDC')
 ```
 
 ```{r}
-pb |> rpermblock()
+set.seed(124); pb |> rpermblock()
 ```
 
 ```{r}

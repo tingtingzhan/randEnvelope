@@ -17,7 +17,7 @@ stratify(x, ..., sep)
 \item{sep}{\link[base]{character} scalar, symbol to separate multiple strata names}
 }
 \value{
-Function \link{stratify.permblock} returns a \linkS4class{stratified_permblock} object.
+Function \code{\link[=stratify.permblock]{stratify.permblock()}} returns a \linkS4class{stratified_permblock} object.
 }
 \description{
 stratify

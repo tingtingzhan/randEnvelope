@@ -12,7 +12,7 @@
 #' 
 #' @name schedule
 #' @export
-schedule <- function(x, ...) UseMethod(generic = 'schedule') # .blocks, 
+schedule <- function(x, ...) UseMethod(generic = 'schedule')
 
 
 #' @rdname schedule
@@ -47,11 +47,11 @@ schedule.permblock <- function(x, ...) {
 #' 
 #' @export
 rpermblock <- function(x) {
+  min_sz <- sum(x@ratio) * min(x@multiplier) # minimum block size
   b_ <- rep(x@arm, times = x@ratio)
-  b <- lapply(x@multiplier, FUN = function(m) rep(b_, times = m))
-  nmax <- ceiling(x@n / min(lengths(b))) # max number of blocks needed
-  id <- sample.int(n = length(x@multiplier), size = nmax, replace = TRUE) # randomly selected multipliers
-  ret0 <- b[id] |> 
+  ret0 <- x@multiplier |> 
+    lapply(FUN = function(m) b_ |> rep(times = m)) |>
+    sample(size = ceiling(x@n / min_sz), replace = TRUE) |> 
     lapply(FUN = function(i) {
       sample(x = i, size = length(i), replace = FALSE)
     }) |>
@@ -67,14 +67,14 @@ rpermblock <- function(x) {
 #' @rdname schedule
 #' @export schedule.stratified_permblock
 #' @export
-schedule.stratified_permblock <- function(x, ...) { # .blocks = get_block(x), 
+schedule.stratified_permblock <- function(x, ...) {
 
   k <- .row_names_info(x@strata, type = 2L) # number of combined-strata
 
   # ?base::replicate or ?base::lapply both mess up with `...` !!
   tmp <- list()
   for (i in seq_len(k)) {
-    suppressMessages(tmp[[i]] <- schedule.permblock(x, ...)) # .blocks = .blocks, 
+    suppressMessages(tmp[[i]] <- schedule.permblock(x, ...))
   }
   
   out <- data.frame(
