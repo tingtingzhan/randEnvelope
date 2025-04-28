@@ -49,7 +49,8 @@ print.schedule <- function(
   
   if (which %in% c('all', 'schedule')) {
     write.table(x = x, file = file_schedule, quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
-    cli_text('randomization {.href [schedule](file://{path.expand(path = file_schedule)})}')
+    'randomization {.href [schedule](file://{path.expand(path = file_schedule)})}' |>
+      cli_text()
   }
   
   if (which %in% c('all', 'envelope', 'insert')) {
@@ -87,33 +88,41 @@ print.schedule <- function(
     # use this aspect ratio, even if printing on #10 envelopes directly!!
     cairo_pdf(filename = file_envelope, 
               width = (4 + 3/16) * 1.75, height = (3 + 5/16) * 1.75)
-    noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
-      p <- bg_envelope + 
-        (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
-        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
-      print(p)
-      if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
-    })
+    noout_ <- n |>
+      seq_len() |>
+      lapply(FUN = \(i) {
+        p <- bg_envelope + 
+          (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
+          annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
+        print(p)
+        if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
+      })
     dev.off()
     message('\r                                \r', appendLF = FALSE)
     
     # link is activated (OLD and NEW), but RStudio tries to open this pdf file in RStudio.
     # tzh does not know how to specify desired program to open, as for now
     # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope)) # OLD: error under Windows; okay on Mac
-    cli_text(sprintf(fmt = '\r \u00d7%d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}', n)) # NEW
+    n |>
+      sprintf(fmt = '\r \u00d7%d {.href [10# envelopes](file://{path.expand(path = file_envelope)})}') |>
+      cli_text() # NEW
     
     cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
-    noout_ <- lapply(seq_len(length.out = n), FUN = function(i) {
-      p <- bg_insert + 
-        (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
-        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
-        annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
-      print(p)
-      if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
-    })
+    noout_ <- n |>
+      seq_len() |>
+      lapply(FUN = \(i) {
+        p <- bg_insert + 
+          (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
+          annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
+          annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
+        print(p)
+        if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
+      })
     dev.off()
     message('\r                                \r', appendLF = FALSE)
-    cli_text(sprintf(fmt = '\r \u00d7%d {.href [inserts](file://{path.expand(path = file_insert)})}', n))
+    n |>
+      sprintf(fmt = '\r \u00d7%d {.href [inserts](file://{path.expand(path = file_insert)})}') |>
+      cli_text()
   
   }
   

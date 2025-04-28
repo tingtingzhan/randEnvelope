@@ -2,7 +2,7 @@ Package: randEnvelope
 Type: Package
 Title: Randomization Envelopes
 Version: 0.1.1
-Date: 2025-03-12
+Date: 2025-04-28
 Description: Create randomization envelopes.
 License: GPL-2
 Encoding: UTF-8
@@ -10,9 +10,7 @@ Imports: cli, ggplot2, methods
 Authors@R: c(person(given = "Tingting", family = "Zhan", role = c("aut", "cre"), email = c("tingtingzhan@gmail.com")))
 Language: en-US
 Roxygen: list(markdown = TRUE)
-Depends: R (>= 4.4.0)
+Depends: R (>= 4.5.0)
 RoxygenNote: 7.3.2
-Suggests: 
-    knitr,
-    rmarkdown
+Suggests: knitr, quarto, rmarkdown
 VignetteBuilder: knitr

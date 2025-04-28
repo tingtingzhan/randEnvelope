@@ -50,9 +50,9 @@ rpermblock <- function(x) {
   min_sz <- sum(x@ratio) * min(x@multiplier) # minimum block size
   b_ <- rep(x@arm, times = x@ratio)
   ret0 <- x@multiplier |> 
-    lapply(FUN = function(m) b_ |> rep(times = m)) |>
+    lapply(FUN = \(m) b_ |> rep(times = m)) |>
     sample(size = ceiling(x@n / min_sz), replace = TRUE) |> 
-    lapply(FUN = function(i) {
+    lapply(FUN = \(i) {
       sample(x = i, size = length(i), replace = FALSE)
     }) |>
     unlist()
