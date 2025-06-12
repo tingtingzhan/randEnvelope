@@ -30,9 +30,6 @@ Default to balanced design \code{1:1: ... :1}.}
 \item{\code{multiplier}}{\link[base]{integer} \link[base]{vector}
 to determine the permuted block sizes.
 Default \code{2:3}, i.e., block size multipliers of 2 and 3 are permuted.}
-
-\item{\code{nm_sequence}}{\link[base]{character} scalar, default \code{'Sequence'}}
-
-\item{\code{nm_arm}}{\link[base]{character} scalar, default \code{'Assignment'}}
 }}
 
+\keyword{internal}

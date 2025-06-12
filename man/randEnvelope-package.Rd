@@ -4,9 +4,9 @@
 \name{randEnvelope-package}
 \alias{randEnvelope}
 \alias{randEnvelope-package}
-\title{randEnvelope}
+\title{randEnvelope: Randomization Envelopes}
 \description{
-..
+Create randomization envelopes.
 }
 \author{
 \strong{Maintainer}: Tingting Zhan \email{tingtingzhan@gmail.com}

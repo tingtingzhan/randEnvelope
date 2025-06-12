@@ -19,10 +19,7 @@
 #' to determine the permuted block sizes.
 #' Default `2:3`, i.e., block size multipliers of 2 and 3 are permuted.
 #' 
-#' @slot nm_sequence \link[base]{character} scalar, default `'Sequence'`
-#' 
-#' @slot nm_arm \link[base]{character} scalar, default `'Assignment'`
-#' 
+#' @keywords internal
 #' @name permblock
 #' @aliases permblock-class
 #' @export
@@ -30,13 +27,9 @@ setClass(Class = 'permblock', slots = c(
   arm = 'character',
   ratio = 'integer',
   n = 'integer',
-  multiplier = 'integer',
-  nm_sequence = 'character',
-  nm_arm = 'character'
+  multiplier = 'integer'
 ), prototype = prototype(
-  multiplier = 2:3,
-  nm_sequence = 'Sequence',
-  nm_arm = 'Assignment'
+  multiplier = 2:3
 ))
 
 
