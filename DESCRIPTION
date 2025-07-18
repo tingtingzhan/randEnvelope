@@ -5,7 +5,7 @@ Version: 0.1.1
 Description: Create randomization envelopes.
 License: GPL-2
 Encoding: UTF-8
-Imports: cli, ggplot2, methods
+Imports: cli, ggplot2 (== 3.5.2), methods
 Authors@R: c(person(given = "Tingting", family = "Zhan", role = c("aut", "cre"), email = c("tingtingzhan@gmail.com")))
 Language: en-US
 Roxygen: list(markdown = TRUE)
