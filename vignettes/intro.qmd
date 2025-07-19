@@ -1,29 +1,31 @@
 ---
 title: "Randomization Envelopes"
-output: rmarkdown::html_vignette
+author: Tingting Zhan
+format: 
+  html:
+    page-layout: full
+    html-math-method: katex
+toc: true
+toc-location: left
+toc-depth: 4
+toc-title: ''
+editor: visual
 vignette: >
-  %\VignetteIndexEntry{Randomization Envelopes}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{intro}
+  %\VignetteEngine{quarto::html}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-library(knitr)
-opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-options(rmarkdown.html_vignette.check_title = FALSE)
-```
+# Introduction
 
-```{r setup}
+
+```{r}
 library(randEnvelope)
 ```
 
 ```{r}
 (pb = permblock(arm = c('intervention', 'control'), ratio = 1:2, n = 20L))
 ```
-
 
 ```{r}
 set.seed(1251); pb |> schedule()
@@ -39,8 +41,5 @@ set.seed(124); pb |> rpermblock()
 ```
 
 ```{r}
-set.seed(1325); spb |> schedule()
+set.seed(13); spb |> schedule()
 ```
-
-
-
