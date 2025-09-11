@@ -8,8 +8,8 @@ Encoding: UTF-8
 Authors@R: c(person(given = "Tingting", family = "Zhan", role = c("aut", "cre"), email = c("tingtingzhan@gmail.com")))
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Depends: R (>= 4.5)
-Imports: cli (== 3.6.5), ggplot2 (== 3.5.2), methods
+Imports: cli (== 3.6.5), ggplot2 (== 4.0.0), methods
 Suggests: knitr, quarto, rmarkdown
 VignetteBuilder: quarto
