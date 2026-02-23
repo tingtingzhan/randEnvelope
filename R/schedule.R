@@ -68,7 +68,7 @@ rpermblock <- function(x) {
 #' @export
 schedule.stratified_permblock <- function(x, ...) {
 
-  k <- .row_names_info(x@strata, type = 2L) # number of combined-strata
+  k <- nrow(x@strata) # number of combined-strata
 
   # ?base::replicate or ?base::lapply both mess up with `...` !!
   tmp <- list()

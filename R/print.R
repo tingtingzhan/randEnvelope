@@ -80,7 +80,7 @@ print.schedule <- function(
       annotate(geom = 'text', label = 'Date:            mm /           dd /                     yyyy', size = 4.5, x = .7, y = .13) +
       annotate(geom = 'text', label = 'Put completed form back into envelope, seal and keep for records', size = 4, x = .6, y = .08, colour = 'grey50')
     
-    n <- .row_names_info(x, 2L)
+    n <- nrow(x)
     label <- attr(x, which = 'label', exact = TRUE)
     
     # https://www.avery.com/templates/5164
