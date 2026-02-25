@@ -10,6 +10,4 @@ Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Depends: R (>= 4.5)
-Imports: cli (== 3.6.5), methods, ggplot2 (== 4.0.2)
-Suggests: knitr, quarto, rmarkdown
-VignetteBuilder: quarto
+Imports: methods, cli (== 3.6.5), ggplot2 (== 4.0.2)
