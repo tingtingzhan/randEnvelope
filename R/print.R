@@ -8,14 +8,22 @@
 #' @param x a [schedule] object
 #' 
 #' @param path \link[base]{character} scalar
+#' 
 #' @param which \link[base]{character} scalar, either 
 #' `'schedule'` (default, in a `.csv` file, fast), 
 #' `'envelope'`, 
 #' `'insert'` (in `.pdf` files via \link[ggplot2]{ggplot}, could be slow for large sample size)
 #' and `'all'`
+#' 
+#' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+#' Default is the return of function \link[parallel]{detectCores}.
+#' 
 #' @param title \link[base]{character} scalar, name of study
+#' 
 #' @param scientist \link[base]{character} scalar, (email of) the principal investigator
+#' 
 #' @param statistician \link[base]{character} scalar, (email of) the statistician
+#' 
 #' @param ... ..
 #' 
 #' @returns 
@@ -27,12 +35,16 @@
 #' @importFrom grid unit
 #' @importFrom ggplot2 ggplot annotate element_blank element_rect theme xlim ylim
 #' @importFrom utils write.table
+#' @importFrom doParallel registerDoParallel
+#' @importFrom foreach foreach `%dopar%`
+#' @importFrom parallel mclapply makeCluster stopCluster
 #' @export print.schedule
 #' @export
 print.schedule <- function(
     x, 
     path = tempdir(),
     which = c('schedule', 'envelope', 'insert', 'all'),
+    mc.cores = getOption('cores'),
     title = 'Study Title',
     scientist = 'Principal.Investigator@jefferson.edu',
     statistician = 'Tingting.Zhan@jefferson.edu',
@@ -81,6 +93,8 @@ print.schedule <- function(
       annotate(geom = 'text', label = 'Put completed form back into envelope, seal and keep for records', size = 4, x = .6, y = .08, colour = 'grey50')
     
     n <- nrow(x)
+    seqn <- n |>
+      seq_len()
     label <- attr(x, which = 'label', exact = TRUE)
     
     # https://www.avery.com/templates/5164
@@ -88,14 +102,26 @@ print.schedule <- function(
     # use this aspect ratio, even if printing on #10 envelopes directly!!
     cairo_pdf(filename = file_envelope, 
               width = (4 + 3/16) * 1.75, height = (3 + 5/16) * 1.75)
-    noout_ <- n |>
-      seq_len() |>
-      lapply(FUN = \(i) {
-        p <- bg_envelope + 
-          (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
-          annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
-        print(p)
-        if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
+    
+    fn_envelope <- \(i) {
+      p <- bg_envelope + 
+        (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
+        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
+      print(p)
+      if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
+    }
+    
+    switch(
+      EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+      unix = { 
+        noout_ <- seqn |>
+          mclapply(FUN = fn_envelope, mc.cores = mc.cores)
+      }, 
+      windows = {
+        i <- NULL # just to suppress devtools::check NOTE
+        registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+        noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_envelope(i)
+        stopCluster(cl)
       })
     dev.off()
     message('\r                                \r', appendLF = FALSE)
@@ -108,15 +134,27 @@ print.schedule <- function(
       cli_text() # NEW
     
     cairo_pdf(filename = file_insert, width = 8.5, height = 11) # US letter
-    noout_ <- n |>
-      seq_len() |>
-      lapply(FUN = \(i) {
-        p <- bg_insert + 
-          (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
-          annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
-          annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
-        print(p)
-        if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
+    
+    fn_insert <- \(i) {
+      p <- bg_insert + 
+        (if (length(label)) annotate(geom = 'label', label = label[i], size = 5.5, fontface = 'bold', x = .5, y = .72, fill = 'grey95')) +
+        annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
+        annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
+      print(p)
+      if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
+    }
+    
+    switch(
+      EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+      unix = { 
+        noout_ <- seqn |>
+          mclapply(FUN = fn_insert, mc.cores = mc.cores)
+      },
+      windows = {
+        i <- NULL # just to suppress devtools::check NOTE
+        registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+        noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_insert(i)
+        stopCluster(cl)
       })
     dev.off()
     message('\r                                \r', appendLF = FALSE)

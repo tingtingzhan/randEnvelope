@@ -8,6 +8,7 @@
   x,
   path = tempdir(),
   which = c("schedule", "envelope", "insert", "all"),
+  mc.cores = getOption("cores"),
   title = "Study Title",
   scientist = "Principal.Investigator@jefferson.edu",
   statistician = "Tingting.Zhan@jefferson.edu",
@@ -24,6 +25,9 @@
 \code{'envelope'},
 \code{'insert'} (in \code{.pdf} files via \link[ggplot2]{ggplot}, could be slow for large sample size)
 and \code{'all'}}
+
+\item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
+Default is the return of function \link[parallel]{detectCores}.}
 
 \item{title}{\link[base]{character} scalar, name of study}
 
