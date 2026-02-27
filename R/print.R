@@ -60,9 +60,15 @@ print.schedule <- function(
   file_schedule <- tempfile(pattern = 'Schedule_', tmpdir = path, fileext = '.csv')
   
   if (which %in% c('all', 'schedule')) {
-    write.table(x = x, file = file_schedule, quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
+    
+    x |> 
+      write.table(
+        x = _, file = file_schedule, 
+        quote = FALSE, sep = ',', row.names = FALSE, qmethod = 'double')
+    
     'randomization {.href [schedule](file://{path.expand(path = file_schedule)})}' |>
       cli_text()
+    
   }
   
   if (which %in% c('all', 'envelope', 'insert')) {
@@ -108,7 +114,6 @@ print.schedule <- function(
         (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
         annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
       print(p)
-      if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
     }
     
     switch(
@@ -141,7 +146,6 @@ print.schedule <- function(
         annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
         annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
       print(p)
-      if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
     }
     
     switch(
@@ -162,6 +166,9 @@ print.schedule <- function(
       sprintf(fmt = '\r \u00d7%d {.href [inserts](file://{path.expand(path = file_insert)})}') |>
       cli_text()
   
+    system(command = paste0('open ', file_insert))
+    system(command = paste0('open ', file_envelope))
+    
   }
   
   system(command = paste0('open ', path))
