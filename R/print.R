@@ -114,23 +114,30 @@ print.schedule <- function(
         (if (length(label)) annotate(geom = 'label', label = label[i], size = 5*2, fontface = 'bold', x = .5, y = .5, fill = 'grey95')) +
         annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5*2, fontface = 'bold', x = .5, y = .35, fill = 'grey95')
       print(p)
+      if (!(i %% 10L)) message('\r', i, '/', n, ' 10# envelopes created', appendLF = FALSE)
     }
     
-    switch(
-      EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
-      unix = { 
-        noout_ <- seqn |>
-          mclapply(FUN = fn_envelope, mc.cores = mc.cores)
-      }, 
-      windows = {
-        i <- NULL # just to suppress devtools::check NOTE
-        registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
-        noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_envelope(i)
-        stopCluster(cl)
-      })
+    noout_ <- seqn |>
+      lapply(FUN = fn_envelope)
+    if (FALSE) {
+      # as of 2026-02-27
+      # on Mac, the pdf file created by parallel::mclapply is damaged!!!
+      switch(
+        EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+        unix = { 
+          noout_ <- seqn |>
+            mclapply(FUN = fn_envelope, mc.cores = mc.cores)
+        }, 
+        windows = {
+          i <- NULL # just to suppress devtools::check NOTE
+          registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+          noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_envelope(i)
+          stopCluster(cl)
+        })
+    }
+
     dev.off()
     message('\r                                \r', appendLF = FALSE)
-    
     # link is activated (OLD and NEW), but RStudio tries to open this pdf file in RStudio.
     # tzh does not know how to specify desired program to open, as for now
     # cli_text(sprintf(fmt = '\r %d {.href [10# envelopes](file://{\'%s\'})}', n, file_envelope)) # OLD: error under Windows; okay on Mac
@@ -146,20 +153,27 @@ print.schedule <- function(
         annotate(geom = 'label', label = paste0('Sequence #:  ', x[[1L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .6, fill = 'grey95') +
         annotate(geom = 'label', label = paste0('Assignment:  ', x[[2L]][i]), size = 5.5, fontface = 'bold', x = .5, y = .55, fill = 'grey95') 
       print(p)
+      if (!(i %% 10L)) message('\r', i, '/', n, ' inserts created', appendLF = FALSE)
     }
     
-    switch(
-      EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
-      unix = { 
-        noout_ <- seqn |>
-          mclapply(FUN = fn_insert, mc.cores = mc.cores)
-      },
-      windows = {
-        i <- NULL # just to suppress devtools::check NOTE
-        registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
-        noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_insert(i)
-        stopCluster(cl)
-      })
+    noout_ <- seqn |>
+      lapply(FUN = fn_insert)
+    if (FALSE) {
+      # as of 2026-02-27
+      # on Mac, the pdf file created by parallel::mclapply is damaged!!!
+      switch(
+        EXPR = .Platform$OS.type, # as of R 4.5, only two responses, 'windows' or 'unix'
+        unix = { 
+          noout_ <- seqn |>
+            mclapply(FUN = fn_insert, mc.cores = mc.cores)
+        },
+        windows = {
+          i <- NULL # just to suppress devtools::check NOTE
+          registerDoParallel(cl = (cl <- makeCluster(spec = mc.cores)))
+          noout_ <- foreach(i = seqn, .options.multicore = list(cores = mc.cores)) %dopar% fn_insert(i)
+          stopCluster(cl)
+        })
+    }
     dev.off()
     message('\r                                \r', appendLF = FALSE)
     n |>
