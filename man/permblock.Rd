@@ -4,31 +4,31 @@
 \name{permblock}
 \alias{permblock}
 \alias{permblock-class}
-\title{Permuted Block Randomization}
+\title{\code{S4} Class \code{'permblock'}: Permuted Block Randomization}
 \usage{
 permblock(...)
 }
 \arguments{
-\item{...}{slots of S4 object \linkS4class{permblock}}
+\item{...}{slots of the S4 object \linkS4class{permblock}}
 }
 \description{
-Permuted block randomization, non-stratified.
+Permuted block randomization (non-stratified).
 }
 \section{Slots}{
 
 \describe{
-\item{\code{arm}}{\link[base]{character} \link[base]{vector}, name of arms,
-such as \code{'tx1'}, \code{'tx2'}, \code{'control'}, etc.}
+\item{\code{arm}}{\link[base]{character} \link[base]{vector}, name of study arms,
+such as \code{'treatment1'}, \code{'treatment1'}, \code{'control'}, etc.}
 
 \item{\code{ratio}}{\link[base]{integer} \link[base]{vector},
 planned allocation ratios of arms.
-End user should make sure the greatest common divisor of \code{ratio} is 1.
+End user should make sure that the greatest common divisor of \code{ratio} is 1.
 Default to balanced design \code{1:1: ... :1}.}
 
 \item{\code{n}}{\link[base]{integer} scalar, smallest sample size to be guaranteed.}
 
 \item{\code{multiplier}}{\link[base]{integer} \link[base]{vector}
-to determine the permuted block sizes.
+permuted block size multipliers.
 Default \code{2:3}, i.e., block size multipliers of 2 and 3 are permuted.}
 }}
 

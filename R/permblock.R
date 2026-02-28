@@ -1,22 +1,22 @@
 
 
-#' @title Permuted Block Randomization
+#' @title `S4` Class `'permblock'`: Permuted Block Randomization
 #' 
 #' @description
-#' Permuted block randomization, non-stratified.
+#' Permuted block randomization (non-stratified).
 #' 
-#' @slot arm \link[base]{character} \link[base]{vector}, name of arms, 
-#' such as `'tx1'`, `'tx2'`, `'control'`, etc.
+#' @slot arm \link[base]{character} \link[base]{vector}, name of study arms, 
+#' such as `'treatment1'`, `'treatment1'`, `'control'`, etc.
 #' 
 #' @slot ratio \link[base]{integer} \link[base]{vector}, 
 #' planned allocation ratios of arms.
-#' End user should make sure the greatest common divisor of `ratio` is 1.
+#' End user should make sure that the greatest common divisor of `ratio` is 1.
 #' Default to balanced design `1:1: ... :1`.
 #' 
 #' @slot n \link[base]{integer} scalar, smallest sample size to be guaranteed.
 #' 
 #' @slot multiplier \link[base]{integer} \link[base]{vector}
-#' to determine the permuted block sizes.
+#' permuted block size multipliers.
 #' Default `2:3`, i.e., block size multipliers of 2 and 3 are permuted.
 #' 
 #' @keywords internal
@@ -34,7 +34,7 @@ setClass(Class = 'permblock', slots = c(
 
 
 
-setMethod(f = initialize, signature = 'permblock', definition = function(.Object, ...) {
+setMethod(f = initialize, signature = 'permblock', definition = \(.Object, ...) {
   
   x <- callNextMethod(.Object, ...)
   
@@ -47,7 +47,7 @@ setMethod(f = initialize, signature = 'permblock', definition = function(.Object
 })
 
 
-setValidity(Class = 'permblock', method = function(object) {
+setValidity(Class = 'permblock', method = \(object) {
   arm <- object@arm
   ratio <- object@ratio
   n <- object@n
@@ -65,13 +65,19 @@ setValidity(Class = 'permblock', method = function(object) {
 
 #' @rdname permblock
 #' 
-#' @param ... slots of S4 object \linkS4class{permblock}
+#' @param ... slots of the S4 object \linkS4class{permblock}
 #' 
 #' @export 
 permblock <- function(...) new(Class = 'permblock', ...)
 
 
-#' @importFrom cli col_blue col_cyan col_green col_magenta col_yellow style_bold style_hyperlink style_underline
+#' @title print.permblock
+#' 
+#' @param x ..
+#' 
+#' @param ... ..
+#' 
+#' @export print.permblock
 #' @export
 print.permblock <- function(x, ...) {
   return(paste0(
@@ -96,8 +102,10 @@ print.permblock <- function(x, ...) {
 #' @param object \linkS4class{permblock}
 #' 
 #' @export
-setMethod(f = show, signature = 'permblock', definition = function(object) {
-  object |> print.permblock() |> message()
+setMethod(f = show, signature = 'permblock', definition = \(object) {
+  object |> 
+    print.permblock() |> 
+    message()
 })
 
 

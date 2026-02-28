@@ -10,14 +10,16 @@ stratify(x, ..., sep)
 \method{stratify}{permblock}(x, ..., sep = " ֍ ")
 }
 \arguments{
-\item{x}{..}
+\item{x}{a \linkS4class{permblock}}
 
-\item{...}{..}
+\item{...}{one or more \link[base]{character} \link[base]{vector}s
+to be \link[base]{expand.grid} into the slot \verb{@strata}}
 
 \item{sep}{\link[base]{character} scalar, symbol to separate multiple strata names}
 }
 \value{
-Function \code{\link[=stratify.permblock]{stratify.permblock()}} returns a \linkS4class{stratified_permblock} object.
+All methods of the \code{S3} generic function \code{\link[=stratify]{stratify()}}
+return \linkS4class{stratified} \linkS4class{permblock}.
 }
 \description{
 stratify

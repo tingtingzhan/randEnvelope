@@ -3,24 +3,21 @@
 \name{schedule}
 \alias{schedule}
 \alias{schedule.permblock}
-\alias{schedule.stratified_permblock}
+\alias{schedule.stratified}
 \title{schedule}
 \usage{
-schedule(x, ...)
+schedule(x)
 
-\method{schedule}{permblock}(x, ...)
+\method{schedule}{permblock}(x)
 
-\method{schedule}{stratified_permblock}(x, ...)
+\method{schedule}{stratified}(x)
 }
 \arguments{
 \item{x}{..}
-
-\item{...}{additional information to be appended to the randomization schedule.
-Use with extreme caution!}
 }
 \value{
-Functions \link{schedule.permblock} and \link{schedule.stratified_permblock}
-both returns a \link{schedule} object
+All \code{S3} methods of the generic function \code{\link[=schedule]{schedule()}}
+return a \link{schedule} object.
 }
 \description{
 schedule

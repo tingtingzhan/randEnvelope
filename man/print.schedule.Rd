@@ -38,7 +38,7 @@ Default is the return of function \link[parallel]{detectCores}.}
 \item{...}{..}
 }
 \value{
-Function \code{\link[=print.schedule]{print.schedule()}} returns ..
+The \code{S3} method \code{\link[=print.schedule]{print.schedule()}} returns ..
 }
 \description{
 Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.

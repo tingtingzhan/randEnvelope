@@ -3,29 +3,27 @@
 #' 
 #' @param x ..
 #' 
-#' @param ... additional information to be appended to the randomization schedule.
-#' Use with extreme caution!
-#' 
 #' @returns
-#' Functions [schedule.permblock] and [schedule.stratified_permblock]
-#' both returns a [schedule] object
+#' All `S3` methods of the generic function [schedule()] 
+#' return a [schedule] object.
 #' 
 #' @name schedule
 #' @export
-schedule <- function(x, ...) UseMethod(generic = 'schedule')
+schedule <- function(x) UseMethod(generic = 'schedule')
 
 
 #' @rdname schedule
+#' @importFrom utils head
 #' @export schedule.permblock
 #' @export
-schedule.permblock <- function(x, ...) {
+schedule.permblock <- function(x) {
   out <- data.frame(
     Sequence = seq_len(x@n), 
-    Assignment = x |> rpermblock(),
-    ...,
+    Assignment = x |> rpermblock() |> head(n = x@n),
     row.names = NULL, check.names = FALSE
   )
-  class(out) <- c('schedule', class(out))
+  class(out) <- c('schedule', class(out)) |> 
+    unique.default()
   return(out)
   
 }
@@ -36,26 +34,35 @@ schedule.permblock <- function(x, ...) {
 #' 
 #' @param x a \linkS4class{permblock}
 #' 
-#' @returns 
-#' Function [rpermblock()] returns a \link[base]{character} \link[base]{vector}.
-#' 
 #' @details
-#' First select a block-size multiplier.
+#' 1. \link[base]{sample}, *with* replacement,  a block-size multiplier.
 #' 
-#' Then do a \link[base]{sample}ing without replacement in the selected block.
+#' 2. \link[base]{sample}, *without* replacement, in the selected block.
+#' 
+#' @returns 
+#' The function [rpermblock()] returns a \link[base]{character} 
+#' \link[base]{vector} with \link[base]{length} no less than `@n`.
+#' 
+#' @note
+#' The function \link[base]{sample} is not an `S3` generic function.
+#' 
+#' The function [rpermblock()] is named in the fashion of the function \link[stats]{rnorm}.
 #' 
 #' @export
 rpermblock <- function(x) {
-  min_sz <- sum(x@ratio) * min(x@multiplier) # minimum block size
-  b_ <- rep(x@arm, times = x@ratio)
-  ret0 <- x@multiplier |> 
-    lapply(FUN = \(m) b_ |> rep(times = m)) |>
-    sample(size = ceiling(x@n / min_sz), replace = TRUE) |> 
-    lapply(FUN = \(i) {
-      sample(x = i, size = length(i), replace = FALSE)
+  
+  min_sz <- sum(x@ratio) * min(x@multiplier) # min block-size
+  max_blk <- ceiling(x@n / min_sz) # max block-number
+  unt <- rep(x@arm, times = x@ratio) # unit-block content
+  
+  x@multiplier |>
+    lapply(FUN = \(m) unt |> rep(times = m)) |> # multiplied-blocks
+    sample(size = max_blk, replace = TRUE) |> # select `max_blk` multiplied-blocks
+    lapply(FUN = \(i) { # sample-without-repacement in each multiplied-blocks
+      sample(x = i, size = length(i), replace = FALSE) 
     }) |>
     unlist()
-  return(ret0[seq_len(x@n)])
+  
 }
 
 
@@ -64,25 +71,27 @@ rpermblock <- function(x) {
 
 
 #' @rdname schedule
-#' @export schedule.stratified_permblock
+#' @export schedule.stratified
 #' @export
-schedule.stratified_permblock <- function(x, ...) {
+schedule.stratified <- function(x) {
 
   k <- nrow(x@strata) # number of combined-strata
 
-  # ?base::replicate or ?base::lapply both mess up with `...` !!
-  tmp <- list()
-  for (i in seq_len(k)) {
-    suppressMessages(tmp[[i]] <- schedule.permblock(x, ...))
-  }
-  
-  out <- data.frame(
-    do.call(what = rbind.data.frame, args = tmp),
-    x@strata[rep(seq_len(k), each = x@n), , drop = FALSE], 
-    row.names = NULL, check.names = FALSE
-  )
+  out <- k |>
+    replicate(
+      n = _, 
+      expr = schedule.permblock(x), 
+      simplify = FALSE
+    ) |>
+    do.call(what = rbind.data.frame, args = _) |>
+    data.frame(
+      x@strata[rep(seq_len(k), each = x@n), , drop = FALSE], 
+      row.names = NULL, check.names = FALSE
+    )
+    
   attr(out, which = 'label') <- rep(x@label, each = x@n)
-  class(out) <- c('schedule', class(out))
+  class(out) <- c('schedule', class(out)) |> 
+    unique.default()
   return(out)
   
 }

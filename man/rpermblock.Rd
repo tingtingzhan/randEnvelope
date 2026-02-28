@@ -10,13 +10,20 @@ rpermblock(x)
 \item{x}{a \linkS4class{permblock}}
 }
 \value{
-Function \code{\link[=rpermblock]{rpermblock()}} returns a \link[base]{character} \link[base]{vector}.
+The function \code{\link[=rpermblock]{rpermblock()}} returns a \link[base]{character}
+\link[base]{vector} with \link[base]{length} no less than \verb{@n}.
 }
 \description{
 Random Generation based on \linkS4class{permblock}
 }
 \details{
-First select a block-size multiplier.
+\enumerate{
+\item \link[base]{sample}, \emph{with} replacement,  a block-size multiplier.
+\item \link[base]{sample}, \emph{without} replacement, in the selected block.
+}
+}
+\note{
+The function \link[base]{sample} is not an \code{S3} generic function.
 
-Then do a \link[base]{sample}ing without replacement in the selected block.
+The function \code{\link[=rpermblock]{rpermblock()}} is named in the fashion of the function \link[stats]{rnorm}.
 }

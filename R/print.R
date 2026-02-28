@@ -28,9 +28,8 @@
 #' 
 #' @returns 
 #' 
-#' Function [print.schedule()] returns ..
+#' The `S3` method [print.schedule()] returns ..
 #' 
-#' @importFrom cli cli_text
 #' @importFrom grDevices cairo_pdf dev.off
 #' @importFrom grid unit
 #' @importFrom ggplot2 ggplot annotate element_blank element_rect theme xlim ylim
