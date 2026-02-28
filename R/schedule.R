@@ -1,11 +1,12 @@
 
-#' @title schedule
+#' @title Create an Randomization Schedule
 #' 
-#' @param x ..
+#' @param x see **Usage**
 #' 
 #' @returns
 #' All `S3` methods of the generic function [schedule()] 
-#' return a [schedule] object.
+#' return an R object of `'schedule'`, 
+#' which inherits from the class \link[base]{data.frame}.
 #' 
 #' @name schedule
 #' @export

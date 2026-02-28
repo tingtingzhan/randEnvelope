@@ -4,7 +4,7 @@
 \alias{schedule}
 \alias{schedule.permblock}
 \alias{schedule.stratified}
-\title{schedule}
+\title{Create an Randomization Schedule}
 \usage{
 schedule(x)
 
@@ -13,12 +13,13 @@ schedule(x)
 \method{schedule}{stratified}(x)
 }
 \arguments{
-\item{x}{..}
+\item{x}{see \strong{Usage}}
 }
 \value{
 All \code{S3} methods of the generic function \code{\link[=schedule]{schedule()}}
-return a \link{schedule} object.
+return an R object of \code{'schedule'},
+which inherits from the class \link[base]{data.frame}.
 }
 \description{
-schedule
+Create an Randomization Schedule
 }
