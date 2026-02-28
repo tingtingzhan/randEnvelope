@@ -26,11 +26,10 @@
 #' 
 #' @param title \link[base]{character} scalar, name of study
 #' 
-#' @param scientist \link[base]{character} scalar, (email of) the principal investigator
+#' @param scientist,statistician (R objects convertible to) \link[utils]{person} objects,
+#' the principal investigator and the statistician
 #' 
-#' @param statistician (an R object convertible to) \link[utils]{person} object
-#' 
-#' @param ... ..
+#' @param ... additional parameters, currently of no use
 #' 
 #' @returns 
 #' 
@@ -51,12 +50,15 @@ print.schedule <- function(
     which = c('schedule', 'envelope', 'insert', 'all'),
     mc.cores = getOption('cores'),
     title = 'Study Title',
-    scientist = 'Principal.Investigator@jefferson.edu',
+    scientist = person(given = 'Principal', family = 'Investigator', email = 'Principal.Investigator@jefferson.edu'),
     statistician = person(given = 'Tingting', family = 'Zhan', email = 'Tingting.Zhan@jefferson.edu'),
     ...
 ) {
   
   if (!inherits(x, what = 'schedule')) stop('`x` must be \'schedule\'.')
+  
+  scientist <- scientist |> as.person()
+  statistician <- statistician |> as.person()
   
   dir.create(path, showWarnings = FALSE)
   which <- match.arg(which)
@@ -90,13 +92,13 @@ print.schedule <- function(
     
     bg_envelope <- bg + 
       annotate(geom = 'text', label = title, size = 7*2, fontface = 'bold', x = .5, y = .75) +
-      annotate(geom = 'text', label = scientist, size = 4.5*2,  x = .5, y = .65) +
+      annotate(geom = 'text', label = scientist |> format(include = 'email'), size = 4.5*2,  x = .5, y = .65) +
       annotate(geom = 'text', label = 'Open Randomization Envelopes in Sequence', size = 3*2, x = .5, y = .25, color = 'grey50')
     
     bg_insert <- bg +
       annotate(geom = 'text', label = title, size = 6, fontface = 'bold', x = .5, y = .9) +
-      annotate(geom = 'text', label = paste0('Principle Investigator:  ', scientist), size = 4.5, x = .5, y = .85) +
-      annotate(geom = 'text', label = paste0('Statistician:  ', statistician |> as.person() |> format()), size = 4.5, x = .5, y = .8) +
+      annotate(geom = 'text', label = paste0('Principle Investigator:  ', scientist |> format()), size = 4.5, x = .5, y = .85) +
+      annotate(geom = 'text', label = paste0('Statistician:  ', statistician |> format()), size = 4.5, x = .5, y = .8) +
       annotate(geom = 'text', label = 'Patient Initials: ______________________', size = 4.5, x = .5, y = .42) +
       annotate(geom = 'text', label = 'Study ID / MRN: ______________________', size = 4.5, x = .5, y = .35) +
       annotate(geom = 'text', label = 'Clinician Signature:  _______________________________', size = 4.5, x = .65, y = .2) +

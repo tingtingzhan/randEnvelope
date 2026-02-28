@@ -10,7 +10,8 @@
   which = c("schedule", "envelope", "insert", "all"),
   mc.cores = getOption("cores"),
   title = "Study Title",
-  scientist = "Principal.Investigator@jefferson.edu",
+  scientist = person(given = "Principal", family = "Investigator", email =
+    "Principal.Investigator@jefferson.edu"),
   statistician = person(given = "Tingting", family = "Zhan", email =
     "Tingting.Zhan@jefferson.edu"),
   ...
@@ -37,11 +38,10 @@ Default is the return of function \link[parallel]{detectCores}.}
 
 \item{title}{\link[base]{character} scalar, name of study}
 
-\item{scientist}{\link[base]{character} scalar, (email of) the principal investigator}
+\item{scientist, statistician}{(R objects convertible to) \link[utils]{person} objects,
+the principal investigator and the statistician}
 
-\item{statistician}{(an R object convertible to) \link[utils]{person} object}
-
-\item{...}{..}
+\item{...}{additional parameters, currently of no use}
 }
 \value{
 The \code{S3} method \code{\link[=print.schedule]{print.schedule()}} returns ..
