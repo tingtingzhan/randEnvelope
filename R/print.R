@@ -3,18 +3,24 @@
 #' @title Print Randomization Schedule, Envelopes and Inserts
 #' 
 #' @description 
-#' Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
+#' Create randomization envelopes and inserts 
+#' using the package \CRANpkg{ggplot2}.
 #' 
 #' @param x a [schedule] object
 #' 
 #' @param path \link[base]{character} scalar
 #' 
-#' @param which \link[base]{character} scalar, either 
-#' `'schedule'` (default, in a `.csv` file, fast), 
-#' `'envelope'`, 
-#' `'insert'` (in `.pdf` files via \link[ggplot2]{ggplot}, could be slow for large sample size)
-#' and `'all'`
-#' 
+#' @param which \link[base]{character} scalar, either one of
+#' \describe{
+#' \item{`'schedule'`}{(default) the randomization schedule in a `.csv` file, 
+#' to be uploaded to a REDCap data base. 
+#' This procedure is fast.}
+#' \item{`'envelope'` or `'insert'`}{the randomization envelopes and inserts 
+#' in `.pdf` files, printed using the package \CRANpkg{ggplot2}. 
+#' This procecure could be slow for large sample size.}
+#' \item{`'all'`}{all options above}
+#' }
+#'  
 #' @param mc.cores \link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 #' Default is the return of function \link[parallel]{detectCores}.
 #' 
@@ -22,7 +28,7 @@
 #' 
 #' @param scientist \link[base]{character} scalar, (email of) the principal investigator
 #' 
-#' @param statistician \link[base]{character} scalar, (email of) the statistician
+#' @param statistician (an R object convertible to) \link[utils]{person} object
 #' 
 #' @param ... ..
 #' 
@@ -33,7 +39,7 @@
 #' @importFrom grDevices cairo_pdf dev.off
 #' @importFrom grid unit
 #' @importFrom ggplot2 ggplot annotate element_blank element_rect theme xlim ylim
-#' @importFrom utils write.table
+#' @importFrom utils person as.person write.table
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
 #' @importFrom parallel mclapply makeCluster stopCluster
@@ -46,7 +52,7 @@ print.schedule <- function(
     mc.cores = getOption('cores'),
     title = 'Study Title',
     scientist = 'Principal.Investigator@jefferson.edu',
-    statistician = 'Tingting.Zhan@jefferson.edu',
+    statistician = person(given = 'Tingting', family = 'Zhan', email = 'Tingting.Zhan@jefferson.edu'),
     ...
 ) {
   
@@ -90,7 +96,7 @@ print.schedule <- function(
     bg_insert <- bg +
       annotate(geom = 'text', label = title, size = 6, fontface = 'bold', x = .5, y = .9) +
       annotate(geom = 'text', label = paste0('Principle Investigator:  ', scientist), size = 4.5, x = .5, y = .85) +
-      annotate(geom = 'text', label = paste0('Statistician:  ', statistician), size = 4.5, x = .5, y = .8) +
+      annotate(geom = 'text', label = paste0('Statistician:  ', statistician |> as.person() |> format()), size = 4.5, x = .5, y = .8) +
       annotate(geom = 'text', label = 'Patient Initials: ______________________', size = 4.5, x = .5, y = .42) +
       annotate(geom = 'text', label = 'Study ID / MRN: ______________________', size = 4.5, x = .5, y = .35) +
       annotate(geom = 'text', label = 'Clinician Signature:  _______________________________', size = 4.5, x = .65, y = .2) +

@@ -11,7 +11,8 @@
   mc.cores = getOption("cores"),
   title = "Study Title",
   scientist = "Principal.Investigator@jefferson.edu",
-  statistician = "Tingting.Zhan@jefferson.edu",
+  statistician = person(given = "Tingting", family = "Zhan", email =
+    "Tingting.Zhan@jefferson.edu"),
   ...
 )
 }
@@ -20,11 +21,16 @@
 
 \item{path}{\link[base]{character} scalar}
 
-\item{which}{\link[base]{character} scalar, either
-\code{'schedule'} (default, in a \code{.csv} file, fast),
-\code{'envelope'},
-\code{'insert'} (in \code{.pdf} files via \link[ggplot2]{ggplot}, could be slow for large sample size)
-and \code{'all'}}
+\item{which}{\link[base]{character} scalar, either one of
+\describe{
+\item{\code{'schedule'}}{(default) the randomization schedule in a \code{.csv} file,
+to be uploaded to a REDCap data base.
+This procedure is fast.}
+\item{\code{'envelope'} or \code{'insert'}}{the randomization envelopes and inserts
+in \code{.pdf} files, printed using the package \CRANpkg{ggplot2}.
+This procecure could be slow for large sample size.}
+\item{\code{'all'}}{all options above}
+}}
 
 \item{mc.cores}{\link[base]{integer} scalar, see function \link[parallel]{mclapply}.
 Default is the return of function \link[parallel]{detectCores}.}
@@ -33,7 +39,7 @@ Default is the return of function \link[parallel]{detectCores}.}
 
 \item{scientist}{\link[base]{character} scalar, (email of) the principal investigator}
 
-\item{statistician}{\link[base]{character} scalar, (email of) the statistician}
+\item{statistician}{(an R object convertible to) \link[utils]{person} object}
 
 \item{...}{..}
 }
@@ -41,5 +47,6 @@ Default is the return of function \link[parallel]{detectCores}.}
 The \code{S3} method \code{\link[=print.schedule]{print.schedule()}} returns ..
 }
 \description{
-Create randomization envelopes and inserts using \link[ggplot2]{ggplot}.
+Create randomization envelopes and inserts
+using the package \CRANpkg{ggplot2}.
 }

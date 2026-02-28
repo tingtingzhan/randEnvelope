@@ -4,7 +4,7 @@
 \alias{schedule}
 \alias{schedule.permblock}
 \alias{schedule.stratified}
-\title{Create an Randomization Schedule}
+\title{Create a Randomization Schedule}
 \usage{
 schedule(x)
 
@@ -21,5 +21,6 @@ return an R object of \code{'schedule'},
 which inherits from the class \link[base]{data.frame}.
 }
 \description{
-Create an Randomization Schedule
+To create a randomization schedule,
+using an user-provided \link[base]{Random} seed.
 }

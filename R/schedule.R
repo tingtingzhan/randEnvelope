@@ -1,5 +1,10 @@
 
-#' @title Create an Randomization Schedule
+#' @title Create a Randomization Schedule
+#' 
+#' @description
+#' To create a randomization schedule, 
+#' using an user-provided \link[base]{Random} seed.
+#' 
 #' 
 #' @param x see **Usage**
 #' 
