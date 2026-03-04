@@ -41,14 +41,14 @@
 #' @importFrom utils person as.person write.table
 #' @importFrom doParallel registerDoParallel
 #' @importFrom foreach foreach `%dopar%`
-#' @importFrom parallel mclapply makeCluster stopCluster
+#' @importFrom parallel detectCores mclapply makeCluster stopCluster
 #' @export print.schedule
 #' @export
 print.schedule <- function(
     x, 
     path = tempdir(),
     which = c('schedule', 'envelope', 'insert', 'all'),
-    mc.cores = getOption('cores'),
+    mc.cores = detectCores(),
     title = 'Study Title',
     scientist = person(given = 'Principal', family = 'Investigator', email = 'Principal.Investigator@jefferson.edu'),
     statistician = person(given = 'Tingting', family = 'Zhan', email = 'Tingting.Zhan@jefferson.edu'),

@@ -8,7 +8,7 @@
   x,
   path = tempdir(),
   which = c("schedule", "envelope", "insert", "all"),
-  mc.cores = getOption("cores"),
+  mc.cores = detectCores(),
   title = "Study Title",
   scientist = person(given = "Principal", family = "Investigator", email =
     "Principal.Investigator@jefferson.edu"),
